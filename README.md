@@ -45,23 +45,18 @@ Selection Sort
 var a;
 
 function selectionSort (A) {
-  var j, n, min, i, t;
+  var n, i, min, j, temp;
   n = A.length;
-  for (j = 0; j < n; j += 1) {
-    m = j;
-    i = j + 1;
-    while (i < n) {
-      if (A[i] < A[m]) {
-        m = i;
+  for (i = 0; i < n; i += 1) {
+    min = i;
+    for (j = i + 1; j < n; j += 1) {
+      if (A[j] < A[min]) {
+        min = j; 
       }
-      i = i + 1;
     }
-    
-    if (m != j) {
-      t = A[j];
-      A[j] = A[m];
-      A[m] = t;
-    }
+    temp = A[i];
+    A[i] = A[min];
+    A[min] = temp;
   }
 }
 
