@@ -1,5 +1,3 @@
-let a;
-
 function insertionSort (A) {
   let j, key, i;
   for (j = 1; j < A.length; j += 1) {
@@ -15,11 +13,4 @@ function insertionSort (A) {
   }
 }
 
-
-a = [5, 2, 4, 6, 1, 3];
-insertionSort(a);
-console.log(a);
-
-a = [31, 41, 59, 26, 41, 58];
-insertionSort(a);
-console.log(a);
+module.exports = insertionSort;
