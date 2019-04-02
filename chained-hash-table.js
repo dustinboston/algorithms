@@ -1,4 +1,4 @@
-const LinkedList = require("./LinkedList");
+const LinkedList = require('./LinkedList');
 
 class ChainedHashTable {
   constructor() {

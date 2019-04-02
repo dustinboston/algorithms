@@ -23,7 +23,7 @@ function merge(A, p, q, r) {
   i = 0;
   j = 0;
   let k;
-  for(k = p; k <= r - 1; k++) {
+  for (k = p; k <= r - 1; k++) {
     if (L[i] <= R[j]) {
       A[k] = L[i];
       i = i + 1;

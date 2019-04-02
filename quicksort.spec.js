@@ -1,4 +1,4 @@
-const assert = require("assert");
+const assert = require('assert');
 const quicksort = require('./quicksort');
 
 let A = [2, 8, 7, 1, 3, 5, 6, 4];

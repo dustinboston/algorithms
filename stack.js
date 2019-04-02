@@ -15,7 +15,7 @@ class Stack {
 
   pop() {
     if (this.stackEmpty()) {
-      throw new Error("underflow");
+      throw new Error('underflow');
     } else {
       this.top -= 1;
       return this.S[this.top + 1];

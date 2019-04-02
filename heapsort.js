@@ -42,7 +42,7 @@ function heapMaximum(A) {
 // O(log n)
 function heapExtractMax(A) {
   if (A.heapSize < 0) {
-    throw new Error("heap underflow");
+    throw new Error('heap underflow');
   }
   const max = A[0];
   A[0] = A.pop(); // Remove the last item
@@ -54,7 +54,7 @@ function heapExtractMax(A) {
 // O(log n)
 function heapIncreaseKey(A, i, key) {
   if (key < A[i]) {
-    throw new Error("new key is smaller than current key");
+    throw new Error('new key is smaller than current key');
   }
   A[i] = key;
   while (i > 0 && A[parent(i)] < A[i]) {
@@ -92,7 +92,7 @@ function maxHeapify(A, i) {
 // O(n), with maxHeapify O(n log n)
 function buildMaxHeap(A) {
   A.heapSize = A.length - 1;
-  let i = Math.floor(A.heapSize/2);
+  let i = Math.floor(A.heapSize / 2);
   for (i; i >= 0; i--) {
     maxHeapify(A, i);
   }
@@ -115,5 +115,5 @@ module.exports = {
   heapExtractMax,
   heapIncreaseKey,
   heapMaximum,
-  maxHeapInsert
+  maxHeapInsert,
 };
