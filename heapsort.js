@@ -1,8 +1,11 @@
+// Differences from CLRS:
+// 1. In JavaScript undefined is neither less than, greater than, or equal to a
+//    number but null is always less than a number, which seems to be what the
+//    psuedocode in CLRS assumes, thus the returning of null in the parent,
+//    left, and right functions
+// 2. In the psuedocode for heapExtractMax the array size seems to decrease
+//    when the heap size is reduced. This is emulated via pop()
 // Also see https://courses.csail.mit.edu/6.006/fall10/handouts/recitation10-8.pdf
-// In JavaScript undefined is neither less than greater than or equal to a
-// number // but null is always less than a number, which seems to be what the
-// psuedocode in CLRS assumes, thus the returning of null in the parent, left,
-// and right functions
 
 function parent(i) {
   if (i === 1) {
