@@ -1,13 +1,37 @@
+// Also see https://courses.csail.mit.edu/6.006/fall10/handouts/recitation10-8.pdf
+// In JavaScript undefined is neither less than greater than or equal to a
+// number // but null is always less than a number, which seems to be what the
+// psuedocode in CLRS assumes, thus the returning of null in the parent, left,
+// and right functions
+
 function parent(i) {
-  return Math.floor(i / 2);
+  if (i === 1) {
+    return null;
+  } else {
+    return Math.floor(i / 2);
+  }
 }
 
-function left(i) {
-  return 2 * i;
+function left(A, i) {
+  if (2 * i <= A.heapSize) {
+    return 2 * i;
+  } else {
+    return null;
+  }
 }
 
-function right(i) {
-  return 2 * i + 1;
+function right(A, i) {
+  if (2 * i + 1 <= A.heapSize) {
+    return 2 * i + 1;
+  } else {
+    return null;
+  }
+}
+
+function exchange(A, i, j) {
+  let tmp = A[i];
+  A[i] = A[j];
+  A[j] = tmp;
 }
 
 // O(1)
@@ -21,7 +45,7 @@ function heapExtractMax(A) {
     throw new Error("heap underflow");
   }
   const max = A[0];
-  A[0] = A[A.heapSize];
+  A[0] = A.pop(); // Remove the last item
   A.heapSize = A.heapSize - 1;
   maxHeapify(A, 0);
   return max;
@@ -34,9 +58,7 @@ function heapIncreaseKey(A, i, key) {
   }
   A[i] = key;
   while (i > 0 && A[parent(i)] < A[i]) {
-    let tmp = A[i];
-    A[i] = A[parent(i)];
-    A[parent(i)] = tmp;
+    exchange(A, i, parent(i));
     i = parent(i);
   }
 }
@@ -50,8 +72,8 @@ function maxHeapInsert(A, key) {
 
 // O(log n)
 function maxHeapify(A, i) {
-  let l = left(i);
-  let r = right(i);
+  let l = left(A, i);
+  let r = right(A, i);
   let largest;
   if (l <= A.heapSize && A[l] > A[i]) {
     largest = l;
@@ -61,19 +83,16 @@ function maxHeapify(A, i) {
   if (r <= A.heapSize && A[r] > A[largest]) {
     largest = r;
   }
-
   if (largest !== i) {
-    let tmp = A[i];
-    A[i] = A[largest];
-    A[largest] = tmp;
+    exchange(A, i, largest);
     maxHeapify(A, largest);
   }
 }
 
-// O(n), O(n log n)
+// O(n), with maxHeapify O(n log n)
 function buildMaxHeap(A) {
   A.heapSize = A.length - 1;
-  let i = Math.floor(A.length / 2);
+  let i = Math.floor(A.heapSize/2);
   for (i; i >= 0; i--) {
     maxHeapify(A, i);
   }
@@ -84,9 +103,7 @@ function heapsort(A) {
   buildMaxHeap(A);
   let i;
   for (i = A.length - 1; i > 0; i--) {
-    let tmp = A[0];
-    A[0] = A[i];
-    A[i] = tmp;
+    exchange(A, 0, i);
     A.heapSize = A.heapSize - 1;
     maxHeapify(A, 0);
   }
