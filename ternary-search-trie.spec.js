@@ -68,3 +68,18 @@ function itShouldGetKeysWithPrefix() {
   assert(actual === expected);
 }
 itShouldGetKeysWithPrefix();
+
+function itShouldMatchKeys() {
+  const t = new TernarySearchTrie();
+  const wordList = 'she sells sea shells by the sea shore';
+  wordList.split(' ').forEach((k, i) => {
+    t.put(k, i);
+  });
+
+  const pattern = 'sh.';
+  const actual = t.keysThatMatch(pattern).join(',');
+  const expected = 'she';
+  console.log({ actual, expected });
+  assert(actual === expected);
+}
+itShouldMatchKeys()

@@ -1,3 +1,7 @@
+/**
+ * Ternary Search Trie (TST) from Algorithms, 4th Edition
+ */
+
 class TernarySearchTrieNode {
 
   c = void 0;
@@ -150,25 +154,25 @@ class TernarySearchTrie {
   keys() {
     /** @type {string[]} */
     const q = [];
-    this.#collect(this.#root, '', q);
+    this.#collectKeys(this.#root, '', q);
     return q;
   }
 
   /**
    * 
-   * @param {string} pre 
+   * @param {string} prefix 
    * @returns {string[]}
    */
-  keysWithPrefix(pre) {
-    if (!pre || typeof pre !== 'string') {
+  keysWithPrefix(prefix) {
+    if (!prefix || typeof prefix !== 'string') {
       throw new Error('A prefix string is required.')
     }
     /** @type {string[]} */
     const q = [];
-    let x = this.#getNode(this.#root, pre, 0);
+    let x = this.#getNode(this.#root, prefix, 0);
     if (x === void 0) return q;
-    if (x.val !== void 0) q.push(pre);
-    this.#collect(x.mid, pre, q);
+    if (x.val !== void 0) q.push(prefix);
+    this.#collectKeys(x.mid, prefix, q);
     return q;
   }
 
@@ -178,14 +182,65 @@ class TernarySearchTrie {
    * @param {string} pre 
    * @param {string[]} q
    */
-  #collect(x, pre, q) {
+  #collectKeys(x, pre, q) {
     if (x === void 0) return;
-    this.#collect(x.left, pre, q);
+    this.#collectKeys(x.left, pre, q);
     if (x.val !== void 0) q.push(pre + x.c);
     pre += x.c;
-    this.#collect(x.mid, pre, q);
+    this.#collectKeys(x.mid, pre, q);
     pre = pre.substring(0, pre.length - 1);
-    this.#collect(x.right, pre, q);
+    this.#collectKeys(x.right, pre, q);
+  }
+
+  /**
+   * 
+   * @param {string} pat 
+   * @returns {string[]} Matches
+   */
+  keysThatMatch(pat) {
+    /** @type {string[]} */
+    const q = [];
+    this.#collectKeysThatMatch(this.#root, '', 0, pat, q);
+    return q;
+  }
+
+  /**
+   * Match keys with a wildcard (.)
+   * Doesn't match anything longer than the pattern
+   * @param {TernarySearchTrie} x 
+   * @param {string} prefix 
+   * @param {number} i 
+   * @param {string} pattern 
+   * @param {string[]} q Matches 
+   */
+  #collectKeysThatMatch(x, prefix, i, pattern, q) {
+    if (x === void 0) return;
+
+    const patLen = pattern.length - 1;
+    const c = pattern.charAt(i);
+    const cCode = c.charCodeAt(0);
+    const xc = x.c;
+    const xcCode = xc.charCodeAt(0);
+
+    if (c === '.' || cCode < xcCode) {
+      this.#collectKeysThatMatch(x.left, prefix, i, pattern, q);
+    }
+
+    if (c === '.' || cCode === xcCode) {
+      if (i === patLen && x.val !== void 0) {
+        q.push(prefix + xc);
+      }
+
+      if (i < patLen) {
+        prefix += xc;
+        this.#collectKeysThatMatch(x.mid, prefix, i + 1, pattern, q);
+        prefix = prefix.substring(0, prefix.length - 1);
+      }
+    }
+
+    if (c === '.' || cCode > xcCode) {
+      this.#collectKeysThatMatch(x.right, prefix, i, pattern, q);
+    }
   }
 }
 
