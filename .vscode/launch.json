@@ -9,6 +9,24 @@
       "request": "launch",
       "name": "Launch Program",
       "program": "${file}"
-    }
+    },
+    {
+      "name": "Deno:file",
+      "type": "node", // was pwa-node
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "deno",
+      "runtimeArgs": ["run", "--inspect-brk", "-A", "${file}"],
+      "attachSimplePort": 9229
+  },
+  {
+      "name": "Deno:ab2-tst",
+      "type": "node", // was pwa-node
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "deno",
+      "runtimeArgs": ["run", "--inspect-brk", "-A", "scripts/ab2-tst.js"],
+      "attachSimplePort": 9229
+  }
   ]
 }
